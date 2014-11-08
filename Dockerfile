@@ -2,6 +2,7 @@ FROM ubuntu:14.04
 MAINTAINER nabezokodaikon
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV NGINX_VER 1.7.4
 
 # リポジトリを日本語向けに変更します。
 RUN sed -e 's;http://archive;http://jp.archive;' -e 's;http://us\.archive;http://jp.archive;' -i /etc/apt/sources.list
@@ -40,13 +41,13 @@ WORKDIR /root/build
 
 RUN wget -O ngx_devel_kit.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz
 RUN wget -O lua-nginx-module.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.9.12.tar.gz
-RUN wget http://nginx.org/download/nginx-1.7.7.tar.gz
+RUN wget http://nginx.org/download/nginx-${NGINX_VER}.tar.gz
 
 RUN tar xvfz ngx_devel_kit.tar.gz
 RUN tar xvfz lua-nginx-module.tar.gz
-RUN tar xvfz nginx-1.7.7.tar.gz
+RUN tar xvfz nginx-${NGINX_VER}.tar.gz
 
-WORKDIR /root/build/nginx-1.7.7
+WORKDIR /root/build/nginx-${NGINX_VER}
 RUN ./configure \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
