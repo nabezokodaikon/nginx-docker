@@ -104,6 +104,7 @@ RUN chown nginx:nginx /var/cache/nginx
 VOLUME ["/var/log/nginx"] 
 
 # default
+ADD ./nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
 
 # gitbucket
