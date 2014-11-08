@@ -9,4 +9,4 @@ fi
 
 docker stop nginx
 docker rm nginx
-docker run --name nginx --link gitbucket:gitbucket -v ${PWD}/log:/var/log/nginx -d -p 53303:80 -t nabezokodaikon/ubuntu:nginx
+docker run --name nginx --link gitbucket:gitbucket -v ${PWD}/log:/var/log/nginx -d -p 80:80 -p 8080:8080 -t nabezokodaikon/ubuntu:nginx

@@ -11,11 +11,16 @@ RUN curl http://nginx.org/keys/nginx_signing.key | apt-key add -
 RUN apt-get update
 RUN apt-get install -y nginx
 
+RUN sed -ri 's/^error_log  \/var\/log\/nginx\/error.log warn;/error_log  \/var\/log\/nginx\/error.log debug;/g' /etc/nginx/nginx.conf
+
 VOLUME ["/var/log/nginx"] 
 
-ADD ./conf.d/gitbucket.conf /etc/nginx/conf.d/gitbucket.conf
-
+# default
 EXPOSE 80
+
+# gitbucket
+ADD ./conf.d/gitbucket.conf /etc/nginx/conf.d/gitbucket.conf
+EXPOSE 8080
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 
