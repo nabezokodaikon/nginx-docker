@@ -98,6 +98,8 @@ RUN sed -ri 's/^error_log  \/var\/log\/nginx\/error.log warn;/error_log  \/var\/
 RUN groupadd nginx
 RUN useradd -g nginx nginx
 RUN usermod -s /bin/false nginx
+RUN mkdir /var/cache/nginx
+RUN chmod nginx:nginx /var/cache/nginx
 
 VOLUME ["/var/log/nginx"] 
 
