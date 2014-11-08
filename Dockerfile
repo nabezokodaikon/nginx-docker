@@ -34,8 +34,8 @@ RUN apt-get install -y curl
 
 RUN apt-get install -y lua5.1 liblua5.1-0 liblua5.1-0-dev
 RUN ln -s /usr/lib/x86_64-linux-gnu/liblua5.1.so /usr/lib/liblua.so
-ENV LUA_LIB=/usr/lib
-ENV LUA_INC=/usr/include/lua5.1
+ENV LUA_LIB /usr/lib
+ENV LUA_INC /usr/include/lua5.1
 
 RUN mkdir /root/build
 RUN cd /root/build
