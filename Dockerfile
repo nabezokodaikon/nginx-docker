@@ -2,7 +2,6 @@ FROM ubuntu:14.04
 MAINTAINER nabezokodaikon
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV NGINX_VERSION 1.7.4
 
 # リポジトリを日本語向けに変更します。
 RUN sed -e 's;http://archive;http://jp.archive;' -e 's;http://us\.archive;http://jp.archive;' -i /etc/apt/sources.list
@@ -30,7 +29,6 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y libpcre3 libpcre3-dev
 RUN apt-get install -y zlib1g zlib1g-dev
 RUN apt-get install -y openssl libssl-dev
-RUN apt-get install -y curl
 
 RUN apt-get install -y lua5.1 liblua5.1-0 liblua5.1-0-dev
 RUN ln -s /usr/lib/x86_64-linux-gnu/liblua5.1.so /usr/lib/liblua.so
@@ -40,16 +38,15 @@ ENV LUA_INC /usr/include/lua5.1
 RUN mkdir /root/build
 RUN cd /root/build
 
-RUN curl -O https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz
-RUN curl -O https://github.com/openresty/lua-nginx-module/archive/v0.9.12.tar.gz
-RUN curl -O https://github.com/openresty/lua-nginx-module/archive/v0.9.7.tar.gz
-RUN curl -O http://nginx.org/download/nginx-$NGINX_VERSION.tar.gz
+RUN wget -O ngx_devel_kit.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz
+RUN wget -O lua-nginx-module.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.9.12.tar.gz
+RUN wget -O nginx.tar.gz http://nginx.org/download/nginx-1.7.7.tar.gz
 
-RUN tar zxf nginx_devkit.tar.gz
-RUN tar zxf nginx_lua.tar.gz
-RUN tar zxf nginx-$NGINX_VERSION.tar.gz
+RUN tar xvfz ngx_devel_kit.tar.gz
+RUN tar xvfz lua-nginx-module.tar.gz
+RUN tar xvfz nginx.tar.gz
 
-RUN cd nginx-$NGINX_VERSION/
+RUN cd nginx/
 RUN ./configure \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
@@ -86,8 +83,8 @@ RUN ./configure \
     --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wp,-D_FORTIFY_SOURCE=2' \
     --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,--as-needed' \
     --with-ipv6 \
-    --add-module=../ngx_devel_kit-0.2.19 \
-    --add-module=../lua-nginx-module-0.97
+    --add-module=../ngx_devel_kit \
+    --add-module=../lua-nginx-module
 
 RUN make
 RUN make install
