@@ -99,7 +99,7 @@ RUN groupadd nginx
 RUN useradd -g nginx nginx
 RUN usermod -s /bin/false nginx
 RUN mkdir /var/cache/nginx
-RUN chmod nginx:nginx /var/cache/nginx
+RUN chown nginx:nginx /var/cache/nginx
 
 VOLUME ["/var/log/nginx"] 
 
