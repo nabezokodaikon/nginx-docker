@@ -40,13 +40,13 @@ WORKDIR /root/build
 
 RUN wget -O ngx_devel_kit.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz
 RUN wget -O lua-nginx-module.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.9.12.tar.gz
-RUN wget -O nginx.tar.gz http://nginx.org/download/nginx-1.7.7.tar.gz
+RUN wget -O http://nginx.org/download/nginx-1.7.7.tar.gz
 
 RUN tar xvfz ngx_devel_kit.tar.gz
 RUN tar xvfz lua-nginx-module.tar.gz
-RUN tar xvfz nginx.tar.gz
+RUN tar xvfz nginx-1.7.7.tar.gz
 
-WORKDIR /root/build/nginx
+WORKDIR /root/build/nginx-1.7.7
 RUN ./configure \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
