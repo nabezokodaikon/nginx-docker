@@ -95,6 +95,10 @@ RUN rm -rf /root/build
 
 RUN sed -ri 's/^error_log  \/var\/log\/nginx\/error.log warn;/error_log  \/var\/log\/nginx\/error.log debug;/g' /etc/nginx/nginx.conf
 
+RUN groupadd nginx
+RUN useradd -g nginx nginx
+RUN usermod -s /bin/false nginx
+
 VOLUME ["/var/log/nginx"] 
 
 # default
