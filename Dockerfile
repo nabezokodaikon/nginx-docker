@@ -36,7 +36,7 @@ ENV LUA_LIB /usr/lib
 ENV LUA_INC /usr/include/lua5.1
 
 RUN mkdir /root/build
-RUN cd /root/build
+WORKDIR /root/build
 
 RUN wget -O ngx_devel_kit.tar.gz https://github.com/simpl/ngx_devel_kit/archive/v0.2.19.tar.gz
 RUN wget -O lua-nginx-module.tar.gz https://github.com/openresty/lua-nginx-module/archive/v0.9.12.tar.gz
@@ -46,7 +46,7 @@ RUN tar xvfz ngx_devel_kit.tar.gz
 RUN tar xvfz lua-nginx-module.tar.gz
 RUN tar xvfz nginx.tar.gz
 
-RUN cd nginx/
+WORKDIR /root/build/nginx
 RUN ./configure \
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
@@ -83,12 +83,13 @@ RUN ./configure \
     --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wp,-D_FORTIFY_SOURCE=2' \
     --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,--as-needed' \
     --with-ipv6 \
-    --add-module=../ngx_devel_kit \
-    --add-module=../lua-nginx-module
+    --add-module=/root/build/ngx_devel_kit \
+    --add-module=/root/build/lua-nginx-module
 
 RUN make
 RUN make install
 
+WORKDIR /
 RUN rm -rf /root/build
 
 RUN sed -ri 's/^error_log  \/var\/log\/nginx\/error.log warn;/error_log  \/var\/log\/nginx\/error.log debug;/g' /etc/nginx/nginx.conf
