@@ -83,8 +83,8 @@ RUN ./configure \
     --param=ssp-buffer-size=4 -Wformat -Wformat-security -Wp,-D_FORTIFY_SOURCE=2' \
     --with-ld-opt='-Wl,-Bsymbolic-functions -Wl,-z,relro -Wl,--as-needed' \
     --with-ipv6 \
-    --add-module=/root/build/ngx_devel_kit \
-    --add-module=/root/build/lua-nginx-module
+    --add-module=/root/build/ngx_devel_kit-0.2.19 \
+    --add-module=/root/build/lua-nginx-module-0.9.12
 
 RUN make
 RUN make install
