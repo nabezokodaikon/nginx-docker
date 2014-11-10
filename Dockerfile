@@ -104,7 +104,7 @@ RUN chown nginx:nginx /var/cache/nginx
 RUN mkdir /etc/nginx/certs
 RUN openssl genrsa -out /etc/nginx/certs/ssl.key 2048
 RUN openssl req -new -newkey rsa:4096 -days 36500 -nodes -subj "/C=/ST=/L=/O=/CN=nabezokodaikon" -keyout /etc/nginx/certs/ssl.key -out /etc/nginx/certs/ssl.csr
-RUN openssl x509 -req -days 36500 -in /certs/ssl.csr -signkey /etc/nginx/certs/ssl.key -out /etc/nginx/certs/ssl.crt
+RUN openssl x509 -req -days 36500 -in /etc/nginx/certs/ssl.csr -signkey /etc/nginx/certs/ssl.key -out /etc/nginx/certs/ssl.crt
 RUN chmod -R 644 /etc/nginx
 
 VOLUME ["/var/log/nginx"] 
